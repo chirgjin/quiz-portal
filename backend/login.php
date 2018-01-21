@@ -30,6 +30,7 @@
 
 // var_dump($user);
 
+
 class Verification
 {
     // simple function to achieve connection to DB with pdo..
