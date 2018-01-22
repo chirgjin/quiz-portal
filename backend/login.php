@@ -1,94 +1,60 @@
 
 <?php
-//
-// $host = "localhost";
-// $username = "root";
-// $password = "shreyans";
-// $dbname = "quiz-portal";
-// $dsn = "mysql:host=$host;dbname=$dbname";
-//
-// $pdo = new PDO($dsn, $username, $password);
-// $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-//
-// $stmt = $pdo->query('SELECT * FROM users');
-//
-// if(!$stmt) {
-//     // print_r($pdo->errorInfo());
-// }
-//
-// while($row = $stmt->fetch()) {
-//     // print_r($row);
-// }
-//
-// $id = 1;
-//
-// $sql = "SELECT * FROM users WHERE id=?";
-// $stmt = $pdo->prepare($sql);
-// $stmt->execute([$id]);
-// // echo $stmt->rowCount();
-// $user = $stmt->fetchAll();
-
-// var_dump($user);
-
 
 class Verification
 {
     // simple function to achieve connection to DB with pdo..
     private function connectToDB() {
-        $host = "localhost";
-        $username = "root";
-        $password = "shreyans";
-        $dbname = "quiz-portal";
-        $dsn = "mysql:host=$host;dbname=$dbname";
-
-        $pdo = new PDO($dsn, $username, $password);
-        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        require('dbconfig.php');
+        $pdo = new PDO($dsn, $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         return $pdo;
     }
 
-    private function verifyTeam($pdo, $teamName, $teamCode) {
-        $sql = 'SELECT * FROM WHERE team_name = ? AND team_code = ?';
+    private function vTeam($pdo, $teamName, $teamCode) {
+        $sql = "SELECT * FROM users WHERE team_name = ? AND team_code = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$teamName, $teamCode]);
-        echo $stmt->rowCount() . "<br>"; //test
-        $participants = $stmt->fetchAll();
-        var_dump($participants); //test
+        if($stmt->rowCount() > 0) {
+            return $stmt->fetchAll();
+        } else {
+            return false;
+        }
     }
 
-    private function verifyLoneWolf($pdo, $email, $phone) {
+    public function verifyTeam($teamName, $teamCode) {
+        $pdo = $this->connectToDB();
+        return $this->vTeam($pdo, $teamName, $teamCode);
+    }
+
+    private function vLone($pdo, $email, $phone) {
         $sql = 'SELECT * FROM users WHERE email = :email AND phone = :phone';
         $stmt = $pdo->prepare($sql);
         $stmt->execute(['email' => $email, 'phone' => $phone]);
-        echo $stmt->rowCount(); //test
-        $participant = $stmt->fetchAll();
-        var_dump($participant); //test
-    }
-
-    /*
-    *isTeam = used to check whether a team or a lone wolf
-    *args = are the arguments sent by the user of verification with name specified
-    */
-    public function verify($isTeam, $args) {
-        $pdo = $this->connectToDB();
-        if($isTeam == false) {
-            $this->verifyLoneWolf($pdo, $args['email'], $args['phone']);
-        } else if($isTeam == true) {
-            $this->verifyTeam($pdo, $args['team_name'], $args['team_code']);
+        if($stmt->rowCount() > 0) {
+            return $stmt->fetchAll();
+        } else {
+            return false;
         }
     }
+
+    public function verifyLoneWolf($email, $phone) {
+        $pdo = $this->connectToDB();
+        return $this->vLone($pdo, $email, $phone);
+    }
+
 }
 
-if( sizeof($_GET) < 3 ) {
-    @$result->error = true; //warning de rha hai bc ki unnamed variable pe operation.. later fix
-    $result->description = 'Few arguments.. can\'t figure out shit';
-    echo json_encode($result);
-} else if( sizeof($_GET) > 3 ) {
-    $result->error = true;
-    $result->description = 'Too Many arguments.. can\'t figure out shit';
-    echo json_encode($result);
-} else {
-    $verify = new Verification;
-    $verify->verify($_GET['team'], $_GET);
+$verify = new Verification;
+if($_POST['isTeam'] == 'false') {
+    // var_dump($verify->verifyLoneWolf($_REQUEST['email'], $_REQUEST['phone']));
+    echo json_encode($verify->verifyLoneWolf($_REQUEST['email'], $_REQUEST['phone']));
+
+} else if($_POST['isTeam'] == 'true') {
+    // var_dump($verify->verifyTeam($_REQUEST['teamName'], $_REQUEST['teamCode']));
+    echo json_encode($verify->verifyTeam($_REQUEST['teamName'], $_REQUEST['teamCode']));
+
 }
+
 
 ?>
