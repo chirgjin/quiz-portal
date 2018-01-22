@@ -1,7 +1,7 @@
 <?php
     /**
      * Function to Fetch Users from API
-     * 
+     *
      * @category FetchData
      * @package  QuizportalFetchData
      * @author   Chirgjin <chirgjin@gmail.com>
@@ -11,9 +11,9 @@
 
 /**
  * Fetch Data from API
- * 
+ *
  * @param string $url url of api
- * 
+ *
  * @return mixed data
  */
 function fetchUsers($url = "https://nsc-api.herokuapp.com/nsc/api/webathon_api")
@@ -36,7 +36,7 @@ function fetchUsers($url = "https://nsc-api.herokuapp.com/nsc/api/webathon_api")
     }
 
     $participants = array();
-    
+
     foreach ($json->participants as $participant) {
         if (!$participant->has_paid)
             continue;
