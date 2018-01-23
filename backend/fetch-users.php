@@ -47,4 +47,4 @@ function fetchUsers($url = "https://nsc-api.herokuapp.com/nsc/api/webathon_api")
 
 }
 
-echo json_encode(fetchUsers());
+print_r(fetchUsers());
