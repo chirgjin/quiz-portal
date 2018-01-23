@@ -1,11 +1,72 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Login Form</title>
-    </head>
-    <body>
-        <form method="POST" action="/login.php">
-        </form>
-    </body>
+<head>
+    <meta charset="utf-8">
+    <title>Login Form</title>
+</head>
+<style>
+    body {
+        width: 40vh;
+        border: 1px solid red;
+        padding: 20px;
+        box-sizing: border-box;
+        margin: 20vh auto;
+    }
+    form {
+        padding: 20px;
+    }
+    input {
+        display: block;
+    }
+    button {
+        margin: 20px;
+    }
+    form {
+        display: none;
+    }
+</style>
+<body>
+    <button id="lone">Lone Wolf</button>
+    <button id="team">Team</button>
+    <form id="tForm" method="POST" action="/quiz-portal/backend/login.php">
+        <label>Team Name</label>
+        <input type="text" name="teamName">
+        <br>
+
+        <label>Team Code</label>
+        <input type="text" name="teamCode">
+        <br>
+
+        <input type="hidden" name="isTeam" value="true">
+        <input type="submit">
+    </form>
+    <form id="lForm" method="POST" action="/quiz-portal/backend/login.php">
+        <label>Email</label>
+        <input type="email" name="email">
+        <br>
+
+        <label>Phone Number</label>
+        <input type="tel" name="phone">
+        <br>
+
+        <input type="hidden" name="isTeam" value="false">
+        <input type="submit">
+    </form>
+</body>
+<script
+src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+    $('#lone').on('click', function() {
+        $('#tForm').css('display', 'none');
+        $('#lForm').css('display', 'block');
+    });
+    $('#team').on('click', function() {
+        $('#tForm').css('display', 'block');
+        $('#lForm').css('display', 'none');
+    });
+});
+</script>
 </html>
