@@ -47,8 +47,7 @@ $verify = new Verification;
 if($_POST['isTeam'] == 'false') {
     // var_dump($verify->verifyLoneWolf($_REQUEST['email'], $_REQUEST['phone']));
    var_dump( (new USER)->set("email" , $_REQUEST['email'])->set("phone",$_REQUEST['phone'])->fetch());
-
-    echo json_encode($verify->verifyLoneWolf($_REQUEST['email'], $_REQUEST['phone']));
+   echo $verify->verifyLoneWolf($_REQUEST['email'], $_REQUEST['phone']);
 
 } else if($_POST['isTeam'] == 'true') {
     // var_dump($verify->verifyTeam($_REQUEST['teamName'], $_REQUEST['teamCode']));
