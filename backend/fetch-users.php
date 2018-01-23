@@ -1,13 +1,15 @@
 <?php
-    /**
-     * Function to Fetch Users from API
-     *
-     * @category FetchData
-     * @package  QuizportalFetchData
-     * @author   Chirgjin <chirgjin@gmail.com>
-     * @license  idk idk
-     * @link     http://api/webathon-api
-     */
+/**
+ * Function to Fetch Users from API
+ *
+ * @category FetchData
+ * @package  QuizportalFetchData
+ * @author   Chirgjin <chirgjin@gmail.com>
+ * @license  idk idk
+ * @link     http://api/webathon-api
+ */
+
+require_once __DIR__ . "/user.class.php";
 
 /**
  * Fetch Data from API
@@ -40,7 +42,33 @@ function fetchUsers($url = "https://nsc-api.herokuapp.com/nsc/api/webathon_api")
     foreach ($json->participants as $participant) {
         if (!$participant->has_paid)
             continue;
+        
+        //Add Data to db..
+        $user = new USER;
         $participants[] = $participant;
+        $profile = $participant->participant;
+
+        if ($participant->team == null) {
+            //isLoner..
+            $user->set("team_code", null)->set("team_name", null);
+            $user->set("email", $profile->email)->set("phone", $profile->phone);
+        } else {
+            //isTeam..
+            $user->set("team_name", $participant->team->team_name)->set("team_code", $participant->team->team_code);
+        }
+
+        if ($user->fetch()) {
+            //User Exists -> do nothing
+            continue ;
+        }
+
+        $usr = $participant->participant->user;
+        $user->set("name", $usr->first_name . " " . $usr->last_name);
+        $user->set("email", $profile->email)->set("phone", $profile->phone);
+
+        $user->save(1);
+
+        $participant->user = $user;
     }
 
     return $participants;
