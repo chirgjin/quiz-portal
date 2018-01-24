@@ -168,7 +168,18 @@ class USER
             return $this;
             break;
         default:
-            return $stmt->fetchAll(PDO::FETCH_CLASS, "USER");
+            $objs = $stmt->fetchAll();
+
+            $results = array();
+
+            foreach ($objs as $obj) {
+                $result = new USER;
+                $result->_data = (array) $obj;
+                $results[] = $result;
+            }
+            
+            return $results;
+
             break;
         }
     }
