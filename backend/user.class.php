@@ -16,7 +16,7 @@
 class USER
 {
     private $_table , $_pdo , $_data , $_changes , $_fetched;
-    public $id, $name, $email, $phone, $submitted, $starting_time, $team_name, $team_code, $marks;
+    // public $id, $name, $email, $phone, $submitted, $starting_time, $team_name, $team_code, $marks;
     /**
      * Provides pdo connection to db
      *
@@ -150,7 +150,7 @@ class USER
         $sql = substr($sql, 0, -4);
 
         $stmt = $this->_pdo->prepare("SELECT * FROM `{$this->_table}` WHERE {$sql}");
-
+        // var_dump($this->_data);
         $stmt->execute($this->_data);
 
 
