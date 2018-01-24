@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . "/user.class.php";
 
+/*
 class Verification
 {
     // simple function to achieve connection to DB with pdo..
@@ -42,17 +43,34 @@ class Verification
     }
 
 }
+*/
 
-$verify = new Verification;
+$verify = new USER;
+
+if(!isset($_POST)) {
+    echo 'post not set';
+}
+
 if($_POST['isTeam'] == 'false') {
-    // var_dump($verify->verifyLoneWolf($_REQUEST['email'], $_REQUEST['phone']));
-   var_dump( (new USER)->set("email" , $_REQUEST['email'])->set("phone",$_REQUEST['phone'])->fetch());
-   echo $verify->verifyLoneWolf($_REQUEST['email'], $_REQUEST['phone']);
-
+    $verify->email = $_POST['email'];
+    $verify->phone = $_POST['phone'];
+    if(!($verify->fetch() == null)) {
+        // session start
+        $_SESSION['id'] = $verify->id;
+        echo json_encode(array('success' => true));
+    } else {
+        echo json_encode(array('success' => false));
+    }
 } else if($_POST['isTeam'] == 'true') {
-    // var_dump($verify->verifyTeam($_REQUEST['teamName'], $_REQUEST['teamCode']));
-    echo json_encode($verify->verifyTeam($_REQUEST['teamName'], $_REQUEST['teamCode']));
-
+    $verify->team_name = $_POST['teamName'];
+    $verify->team_code = $_POST['teamCode'];
+    if(!($verify->fetch() == null)) {
+        // session start
+        $_SESSION['id'] = $verify->id;
+        echo json_encode(array('success' => true));
+    } else {
+        echo json_encode(array('success' => false));
+    }
 }
 
 
