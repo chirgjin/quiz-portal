@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
 import './../css/Login.css';
 
 class Login extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			lonerStatus : 'false',
 			teamStatus : 'false',
 			credential1 : '',
 			credential2 : '',
@@ -36,6 +36,7 @@ class Login extends Component {
 		let detail2 = 'Enter Code';
 		console.log("Team");
 		this.setState({
+			teamStatus : 'true',
 			particapationType1 : detail1,
 			particapationType2 : detail2,
 			hidden : 'credentials',
@@ -43,8 +44,44 @@ class Login extends Component {
 			inputType : 'text'
 		});
 	}
+	handelCredential1Change({target}){
+		this.setState({
+			credential1:target.value
+		})
+	}
+	handelCredential2Change({target}){
+		this.setState({
+			credential2:target.value
+		})
+	}
 	Submit(){
+		let data;
 		console.log('submit')
+		console.log(`credential1 = ${this.state.credential1}`);
+		console.log(`credential2 = ${this.state.credential2}`);
+		if(this.state.teamStatus === 'false'){
+			data = {
+				isTeam : this.state.teamStatus,
+				email : this.state.credential1,
+				phone : this.state.credential2
+			}
+		}else{
+			data = {
+				isTeam : this.state.teamStatus,
+				teamName : this.state.credential1,
+				teamCode : this.state.credential2
+			}
+		}
+
+		console.log(data.isTeam);
+		// fetch('http://anidl.cf/quiz/login', {
+		// 	method: 'GET',
+		// 	headers: 
+		// }).then(res => {
+		// 	console.log(res);
+		// 	return res;
+		// }).catch(err => console.log(err));
+
 	}
   render() {
 	// console.log(this.state.loner_status);
@@ -52,19 +89,19 @@ class Login extends Component {
     return (
         <div className="login-wrap">
                 <div className="row">
-			<div className="col3 ">
+			<div className="col-3 ">
 				<div className= {this.state.selectParticipationType}>
 					<button onClick={this.loner.bind(this)}  className = 'loner_type'>Loner Register</button>
 					<button onClick={this.team.bind(this)}  className = 'team_type'>Team Register</button>
 				</div>
 				<div className = {this.state.hidden}>
-					<input placeholder={this.state.particapationType1} value = {(e)=>{this.setState({credential1 :e.target.value})}} className='credential_1' type={this.state.inputType}/>
-					<input placeholder={this.state.particapationType2} value = {(e)=>{this.setState({credential2 :e.target.value})}} className='credential_2' type="text"/>
-					<button onSubmit = {this.Submit.bind(this)} className = 'team_type'>Submit</button>
+					<input placeholder={this.state.particapationType1} value={this.state.credential1} onChange={this.handelCredential1Change.bind(this)} className='credential_1' type={this.state.inputType}/>
+					<input placeholder={this.state.particapationType2} value={this.state.credential2} onChange={this.handelCredential2Change.bind(this)} className='credential_2' type="text"/>
+					<button onClick= {this.Submit.bind(this)} className = 'submit_form'>Submit</button>
 				</div>
 			</div>
-			<div className="col7"> 
-			
+			<div className="col-9 section-background"> 
+
 			</div>
 		</div>
         </div>
