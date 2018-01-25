@@ -238,6 +238,19 @@ class BASE_MODEL
     }
 
     /**
+     * Fetch all rows from db 
+     * Doesn't use WHERE clause
+     * 
+     * @return mixed array_of_rows
+     */
+    public function fetchAll()
+    {
+        $stmt = $this->query("SELECT * FROM `{$this->_table}`", array());
+
+        return $stmt->fetchAll();
+    }
+
+    /**
      * Update Rows in db
      * 
      * @return void
