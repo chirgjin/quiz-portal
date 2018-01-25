@@ -250,7 +250,7 @@ class QUESTION
         $stmt = $this->_pdo->prepare("INSERT INTO `" . QUESTION::_table . "` " . $sql);
 
         var_dump($sql , $this->_data , $this->_changes);
-
+        
         return $stmt->execute($this->_data) ? true : $stmt->errorInfo()[2];
 
     }

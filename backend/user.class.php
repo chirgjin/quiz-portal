@@ -242,4 +242,15 @@ class USER
         return $stmt->execute($this->_data) ? true : $stmt->errorInfo()[2];
 
     }
+
+    /**
+     * Check if user has extra privileges
+     * 
+     * @return boolean
+     */
+    public function isSuperUSer() {
+
+        return $this->id == 1;
+
+    }
 }
