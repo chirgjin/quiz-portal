@@ -15,7 +15,8 @@
  */
 class USER
 {
-    private $_table , $_pdo , $_data , $_changes , $_fetched;
+    static $_table;
+    private $_pdo , $_data , $_changes , $_fetched;
     // public $id, $name, $email, $phone, $submitted, $starting_time, $team_name, $team_code, $marks;
     /**
      * Provides pdo connection to db
