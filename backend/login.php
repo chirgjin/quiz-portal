@@ -1,5 +1,13 @@
 <?php
+/**
+ * Login Api
+ * 
+ * @category Login
+ * @package  LOGINAPI
+ * @author   Shreyans <shreyans@gmail.com>
+ */
 require_once __DIR__ . "/user.class.php";
+require_once __DIR__ . "/session.php";
 
 /*
 class Verification
@@ -45,33 +53,81 @@ class Verification
 }
 */
 
+$session = new SESSION;
 $verify = new USER;
 
-if(!isset($_POST)) {
-    echo 'post not set';
+header("Content-Type:application/json");
+
+if (!isset($_POST) || !isset($_POST['isTeam'])) {
+    die(
+        json_encode(
+            array(
+                "success"=>false,
+                "message"=>"Invalid Method"
+            )
+        )
+    );
+} else if ($session->verify()) { //session already exists..
+    die(
+        json_encode(
+            array(
+                "success"=>false,
+                "message"=>"User already logged in"
+            )
+        )
+    );
 }
 
-if($_POST['isTeam'] == 'false') {
+if ($_POST['isTeam'] == 'false') {
     $verify->email = $_POST['email'];
     $verify->phone = $_POST['phone'];
-    if(!($verify->fetch() == null)) {
+    if (!($verify->fetch() == null)) {
         // session start
-        $_SESSION['id'] = $verify->id;
-        echo json_encode(array('success' => true));
+        
+        $session->start($verify);
+        
+        die(
+            json_encode(
+                array(
+                    'success'       => true,
+                    'starting_time' => $verify->get("starting_time"),
+                    'ending_time'   => $verify->get("ending_time")
+                )
+            )
+        );
+
     } else {
-        echo json_encode(array('success' => false));
+        echo json_encode(
+            array(
+                'success' => false,
+                'message' => "Invalid credentials"
+            )
+        );
+        exit;
     }
-} else if($_POST['isTeam'] == 'true') {
+} else if ($_POST['isTeam'] == 'true') {
     $verify->team_name = $_POST['teamName'];
     $verify->team_code = $_POST['teamCode'];
-    if(!($verify->fetch() == null)) {
+    if (!($verify->fetch() == null)) {
         // session start
-        $_SESSION['id'] = $verify->id;
-        echo json_encode(array('success' => true));
+
+        $session->start($verify);
+        die(
+            json_encode(
+                array(
+                    'success'       => true,
+                    'starting_time' => $verify->get("starting_time"),
+                    'ending_time'   => $verify->get("ending_time")
+                )
+            )
+        );
     } else {
-        echo json_encode(array('success' => false));
+        echo json_encode(
+            array(
+                'success' => false,
+                'message' => "Invalid credentials"
+            )
+        );
+        die();
     }
 }
-
-
-?>
