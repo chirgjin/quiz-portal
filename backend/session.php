@@ -64,7 +64,7 @@ class SESSION
         
         $user = new USER();
         $user->set("id", $id);
-
+        
         if ($user->fetch()) {
             $this->user($user);
             return true;
@@ -84,3 +84,50 @@ class SESSION
         return isset($_SESSION['id']) ? $_SESSION['id'] : 0;
     }
 }
+
+/**
+ * Send JSON api error response
+ * 
+ * @param string $message Message to send
+ * 
+ * @return void
+ */
+function sendApiError($message) {
+    header("Content-Type:application/json");
+
+    $response = array(
+        "success" => false,
+        "message" => $message
+    );
+
+    die(
+        json_encode($response)
+    );
+
+}
+
+
+/**
+ * Send JSON api success response
+ * 
+ * @param string $data Extra Data to send
+ * 
+ * @return void
+ */
+function sendApiSuccess($data=array()) {
+    header("Content-Type:application/json");
+
+    if (!is_array($data)) {
+        $response = array("message"=>$data);
+    } else {
+        $response = $data;
+    }
+
+    $response['success'] = 1;
+
+    die(
+        json_encode($response)
+    );
+
+}
+

@@ -59,23 +59,9 @@ $verify = new USER;
 header("Content-Type:application/json");
 
 if (!isset($_POST) || !isset($_POST['isTeam'])) {
-    die(
-        json_encode(
-            array(
-                "success"=>false,
-                "message"=>"Invalid Method"
-            )
-        )
-    );
+    sendApiError("Invalid Method/Arguments");
 } else if ($session->verify()) { //session already exists..
-    die(
-        json_encode(
-            array(
-                "success"=>false,
-                "message"=>"User already logged in"
-            )
-        )
-    );
+    sendApiError("User already logged in");
 }
 
 if ($_POST['isTeam'] == 'false') {
@@ -86,24 +72,12 @@ if ($_POST['isTeam'] == 'false') {
         
         $session->start($verify);
         
-        die(
-            json_encode(
-                array(
-                    'success'       => true,
-                    'starting_time' => $verify->get("starting_time"),
-                    'ending_time'   => $verify->get("ending_time")
-                )
-            )
+        sendApiSuccess(
+            array("starting_time" => $verify->starting_time , "ending_time" => $verify->endTime())
         );
 
     } else {
-        echo json_encode(
-            array(
-                'success' => false,
-                'message' => "Invalid credentials"
-            )
-        );
-        exit;
+        sendApiError("Invalid Credentials");
     }
 } else if ($_POST['isTeam'] == 'true') {
     $verify->team_name = $_POST['teamName'];
@@ -112,22 +86,10 @@ if ($_POST['isTeam'] == 'false') {
         // session start
 
         $session->start($verify);
-        die(
-            json_encode(
-                array(
-                    'success'       => true,
-                    'starting_time' => $verify->get("starting_time"),
-                    'ending_time'   => $verify->get("ending_time")
-                )
-            )
+        sendApiSuccess(
+            array("starting_time" => $verify->starting_time , "ending_time" => $verify->endTime())
         );
     } else {
-        echo json_encode(
-            array(
-                'success' => false,
-                'message' => "Invalid credentials"
-            )
-        );
-        die();
+        sendApiError("Invalid credentials");
     }
 }

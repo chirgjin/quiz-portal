@@ -23,7 +23,9 @@ if (!$session->verify()) {
     );
 }
 
-$question_obj = json_decode($_POST['question']);
+$question_obj = json_decode( urldecode($_GET['question']) );
+
+var_dump($question_obj);
 
 $number = $question_obj->no_of_questions;
 
