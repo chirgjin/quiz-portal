@@ -3,7 +3,15 @@
 class QUESTION
 {
         
-    static $_table , $_fields;
+    const _table = "questions" , _fields = array(
+        "id",
+        "question",
+        "option1",
+        "option2",
+        "option3",
+        "option4",
+        "correct"
+    );
     private $_data , $_changes , $_pdo , $_fetched;
     /**
      * Provides pdo connection to db
@@ -21,16 +29,6 @@ class QUESTION
 
     public function __construct() 
     {
-        $this->_table = "questions";
-        $this->_fields = array(
-            "id",
-            "question",
-            "option1",
-            "option2",
-            "option3",
-            "option4",
-            "correct"
-        );
         $this->_data = array();
         $this->_changes = array();
     }
@@ -77,12 +75,20 @@ class QUESTION
             else
                 return $this->get("correct") == $answer;
         } else {
+
+            $option = $this->get("option" . $this->get("correct"));
+            $regex = "/^" . preg_quote($answer, "\/") . '$/i';
+
+            if (preg_match($regex , $option))
+                return true;
+            else
+                return false;
+            
             $options = $this->options();
 
             if (in_array($answer, $options))
                 return true;
             
-            $regex = "/^" . preg_quote($answer, "\/") . '$/i';
 
             foreach ($options as $option) {
                 if (preg_match($regex, $option))
@@ -133,7 +139,8 @@ class QUESTION
      */
     public function set($prop, $val, $store=1)
     {
-        if($store && $this->get($prop) != $val && in_array($prop, $this->_fields))
+        //var_dump($prop , $val , $this->_fields);
+        if($store && $this->get($prop) != $val && in_array($prop, QUESTION::_fields))
             $this->_changes[$prop] = $val;
 
         $this->_data[$prop] = $this->$prop = $val;
@@ -150,7 +157,7 @@ class QUESTION
         $this->_connectToDB();
         $sql = "";
 
-        foreach ($this->_fields as $field) {
+        foreach (QUESTION::_fields as $field) {
             if ($this->get($field))
                 $sql .= "`{$field}`=:{$field} AND ";
         }
@@ -160,7 +167,7 @@ class QUESTION
 
         $sql = substr($sql, 0, -4);
 
-        $stmt = $this->_pdo->prepare("SELECT * FROM `{$this->_table}` WHERE {$sql}");
+        $stmt = $this->_pdo->prepare("SELECT * FROM `" . QUESTION::_table . "` WHERE {$sql}");
         // var_dump($this->_data);
         $stmt->execute($this->_data);
 
@@ -214,7 +221,7 @@ class QUESTION
 
         $this->_changes["id"] = $this->get("id");
 
-        $stmt = $this->_pdo->prepare("UDPATE `{$this->_table}` SET {$sql} WHERE `id`=:id");
+        $stmt = $this->_pdo->prepare("UDPATE `" . QUESTION::_table . "` SET {$sql} WHERE `id`=:id");
 
         $stmt->execute($this->_changes);
 
@@ -240,7 +247,7 @@ class QUESTION
 
         $sql = "(" . implode(",", $columns) . ") VALUES (" . implode(",", $vals) . ")";
 
-        $stmt = $this->_pdo->prepare("INSERT INTO `{$this->_table}` " . $sql);
+        $stmt = $this->_pdo->prepare("INSERT INTO `" . QUESTION::_table . "` " . $sql);
 
         var_dump($sql , $this->_data , $this->_changes);
 
@@ -249,16 +256,10 @@ class QUESTION
     }
 }
 
+/*
 $q = new QUESTION;
 
-$q->set("question", "How to extend jquery?")
-    ->options(
-        array(
-            "$.extend",
-            "$.fn.extend",
-            "$.cs.extend",
-            "extendJquery()"
-        )
-    )
-    ->set("correct", 2)
-    ->save(1);
+$q->set("question", "How to extend jquery?")->fetch();
+var_dump($q->answerIsCorrect(0));
+var_dump($q->answerIsCorrect("$.fn.extend"));
+*/
