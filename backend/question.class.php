@@ -4,7 +4,7 @@ class QUESTION
 {
         
     static $_table , $_fields;
-    private $_data , $_changes , $_pdo;
+    private $_data , $_changes , $_pdo , $_fetched;
     /**
      * Provides pdo connection to db
      *
@@ -60,6 +60,39 @@ class QUESTION
         return $this;
     }
 
+    
+    /**
+     * Check if provided answer is correct
+     * 
+     * @param int/string $answer Answer Selected by User (0-4) / Option String
+     * 
+     * @return boolean 
+     */
+    public function answerIsCorrect($answer)
+    {
+
+        if (is_numeric($answer)) {
+            if ($answer == 0)
+                return false;
+            else
+                return $this->get("correct") == $answer;
+        } else {
+            $options = $this->options();
+
+            if (in_array($answer, $options))
+                return true;
+            
+            $regex = "/^" . preg_quote($answer, "\/") . '$/i';
+
+            foreach ($options as $option) {
+                if (preg_match($regex, $option))
+                    return true;
+            }
+
+            return false;
+        }
+    }
+
     /**
      * Method - Get
      * returns value of variable requested
@@ -100,7 +133,7 @@ class QUESTION
      */
     public function set($prop, $val, $store=1)
     {
-        if($store && $this->get($prop) != $val)
+        if($store && $this->get($prop) != $val && in_array($prop, $this->_fields))
             $this->_changes[$prop] = $val;
 
         $this->_data[$prop] = $this->$prop = $val;
@@ -111,7 +144,6 @@ class QUESTION
     {
         $this->set($prop, $val);
     }
-
 
     public function fetch()
     {
@@ -154,6 +186,7 @@ class QUESTION
             foreach ($objs as $obj) {
                 $result = new USER;
                 $result->_data = (array) $obj;
+                $result->_fetched = 1;
                 $results[] = $result;
             }
             
