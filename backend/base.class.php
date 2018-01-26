@@ -7,17 +7,20 @@
  */
 class BASE_MODEL
 {
-    private $_table , $_fields , $_data , $_changes , $_pdo , $_fetched;
+    private $_table , $_fields , $_data , $_changes , $_pdo , $_fetched , $_className;
     public $error;
 
     /**
      * Constructor fnc?
+     * 
+     * @param string $className ClassName of children
      */
-    public function __construct() {
+    public function __construct($className=null) {
         $this->_data = array();
         $this->_changes = array();
         $this->_fetched = 0;
         $this->error = 0;
+        $this->_className = $className;
     }
 
     /**
@@ -223,9 +226,10 @@ class BASE_MODEL
             $objs = $stmt->fetchAll();
 
             $results = array();
-
+            $classname = ($this->_className);
+            
             foreach ($objs as $obj) {
-                $result = new USER;
+                $result = new $classname;
                 $result->_data = (array) $obj;
                 $result->_fetched = 1;
                 $results[] = $result;
@@ -247,7 +251,19 @@ class BASE_MODEL
     {
         $stmt = $this->query("SELECT * FROM `{$this->_table}`", array());
 
-        return $stmt->fetchAll();
+        $objs = $stmt->fetchAll();
+
+        $results = array();
+        $classname = $this->_className;
+        
+        foreach ($objs as $obj) {
+            $result = new $classname;
+            $result->_data = (array) $obj;
+            $result->_fetched = 1;
+            $results[] = $result;
+        }
+            
+        return $results;
     }
 
     /**

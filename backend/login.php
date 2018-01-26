@@ -6,8 +6,7 @@
  * @package  LOGINAPI
  * @author   Shreyans <shreyans@gmail.com>
  */
-require_once __DIR__ . "/user.class.php";
-require_once __DIR__ . "/session.php";
+require_once __DIR__ . "/check.php";
 
 /*
 class Verification
@@ -56,8 +55,12 @@ class Verification
 $session = new SESSION;
 $verify = new USER;
 
+header("Access-Control-Allow-Origin:http://localhost:3000");
+header("access-control-allow-credentials:true");
+header("Access-Control-Allow-Headers:access-control-allow-headers,access-control-allow-credentials,content-type");
 header("Content-Type:application/json");
 
+$_POST = json_decode(file_get_contents('php://input'), true);
 if (!isset($_POST) || !isset($_POST['isTeam'])) {
     sendApiError("Invalid Method/Arguments");
 } else if ($session->verify()) { //session already exists..

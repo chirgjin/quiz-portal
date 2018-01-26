@@ -10,9 +10,6 @@
  * @link     backend/user.class.php
  */
 
-require_once __DIR__ . "/base.class.php";
-require_once __DIR__ . "/settings.php";
-
 /**
  * Contains all basic/necessary functions to make query on users table
  */
@@ -23,7 +20,7 @@ class USER extends BASE_MODEL
      * Sets Table & Fields value
      */
     public function __construct() {
-        parent::__construct();
+        parent::__construct("USER");
         parent::table("users");
         parent::fields(
             array(

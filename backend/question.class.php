@@ -14,6 +14,7 @@ class QUESTION EXTENDS BASE_MODEL
      */
     public function __construct() 
     {
+        parent::__construct("QUESTION");
         parent::table("questions");
         parent::fields(
             array(

@@ -22,7 +22,7 @@ $users = $user->fetchAll();
 <html>
     <head>
         <title>Users</title>
-        <link rel='stylesheet' href='//bootswatch.com/3/superhero/boostrap.min.css' />
+        <link rel='stylesheet' href='//bootswatch.com/3/superhero/bootstrap.min.css' />
     </head>
     <body class='container' >
 
@@ -37,7 +37,11 @@ $users = $user->fetchAll();
             </tr>
             <?php
             foreach ($users as $user) {
-                
+                $user->team_name = $user->team_name ? $user->team_name : " - ";
+                $user->marks     = $user->marks ? $user->marks : " - ";
+                $user->submitted = $user->submitted ? "checked" : "";
+
+                echo "<tr><td>{$user->name}<td>{$user->email}<td>{$user->phone}<td>{$user->team_name}<td><input type='checkbox' {$user->submitted} /><td>{$user->marks}</tr>";
             }
             ?>
         </table>
