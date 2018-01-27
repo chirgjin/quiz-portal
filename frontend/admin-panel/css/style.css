@@ -1,0 +1,29 @@
+body {
+    background: #eee;
+}
+
+#login {
+    border: 1px solid black;
+    padding: 20px;
+    margin-top: 30vh;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#users {
+    display: none;
+}
+
+#submissions {
+    display: none;
+}
+
+#questions {
+    display: none;
+}
+
+.jumbotron {
+    border: 1px solid black;
+}
