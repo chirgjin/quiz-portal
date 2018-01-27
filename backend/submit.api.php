@@ -25,4 +25,4 @@ $submission->answer  = (int) $_POST['answer'];
 
 $submission->update();
 
-var_dump($submission);
+sendApiSuccess();

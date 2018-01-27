@@ -23,9 +23,13 @@ $submissions = $submission->fetch();
 $ids = array();
 
 if ($submissions != null) {
+    if(!is_array($submissions))
+        $submissions = array($submissions);
+    
     foreach($submissions as $submission)
         $ids[] = $submission->ques_id;
 } else {
+    /*
     for ($i=0;$i<20;$i++) {
         $question = new QUESTION;
         $question->loadRandom();
@@ -39,6 +43,17 @@ if ($submissions != null) {
             $submission->insert();
         }
         //else $i--;
+    }*/
+
+    $question_amt = setting_get("no_of_questions");
+
+    foreach ((new QUESTION)->loadRandom($question_amt) as $question) {
+        $submission = new SUBMISSION;
+        $submission->user_id = $session->user->id;
+        $submission->ques_id = $question->id;
+        $submission->answer  = 0;
+        $submission->insert();
+        $ids[] = $question->id;
     }
 }
 
@@ -46,7 +61,9 @@ $question_cls = new QUESTION;
 
 $questions = array();
 
-foreach ($question_cls->fetchAll() as $question) {
+foreach ($ids as $id) {
+    $question = (new QUESTION)->set("id" , $id)->fetch();
+
     $questions[] = array(
         "id" => $question->id,
         "question" => $question->question,

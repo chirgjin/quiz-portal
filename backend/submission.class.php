@@ -60,7 +60,7 @@ class SUBMISSION EXTENDS BASE_MODEL
         );
 
         parent::query($sql, $data);
-        
+
         return $this;
     }
 }
