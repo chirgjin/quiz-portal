@@ -2,7 +2,7 @@
 /**
  * Base Model for all classes
  * Provides db related functions
- * 
+ *
  * @author chirgjin <chirgjin@gmail.com>
  */
 class BASE_MODEL
@@ -12,7 +12,7 @@ class BASE_MODEL
 
     /**
      * Constructor fnc?
-     * 
+     *
      * @param string $className ClassName of children
      */
     public function __construct($className=null) {
@@ -35,12 +35,12 @@ class BASE_MODEL
             $this->_pdo = $pdo;
         }
     }
-    
+
     /**
      * Get/Set $this->_table
-     * 
+     *
      * @param string $table Value of Table
-     * 
+     *
      * @return string/void
      */
     public function table($table=null)
@@ -54,7 +54,7 @@ class BASE_MODEL
 
     /**
      * Get/Set Fields
-     * 
+     *
      * @param mixed $fields Fields to add
      */
     public function fields($fields=null)
@@ -70,9 +70,9 @@ class BASE_MODEL
 
     /**
      * Add new field to model
-     * 
+     *
      * @param string $field Field Name
-     * 
+     *
      * @return void
      */
     public function addField($field) {
@@ -138,10 +138,10 @@ class BASE_MODEL
 
     /**
      * Magic Method Set
-     * 
+     *
      * @param string $prop property
      * @param mixed  $val  value
-     * 
+     *
      * @return void
      */
     public function __set($prop, $val)
@@ -151,10 +151,10 @@ class BASE_MODEL
 
     /**
      * Perform Query on Db
-     * 
+     *
      * @param string $sql  SQL Statement to execute
      * @param mixed  $data Data to pass to PDO
-     * 
+     *
      * @return PDOSTATEMENT
      */
     public function query($sql,$data)
@@ -164,7 +164,7 @@ class BASE_MODEL
         $stmt = $this->_pdo->prepare($sql);
 
         $stmt->execute($data);
-        
+
         if($stmt->errorCode() === '00000')
             $this->error = 0;
         else {
@@ -181,7 +181,7 @@ class BASE_MODEL
 
     /**
      * Fetch Row(s) from db
-     * 
+     *
      * @return mixed null/self/multiple rows
      */
     public function fetch()
@@ -206,7 +206,7 @@ class BASE_MODEL
 
         $sql = "SELECT * FROM `{$this->_table}` WHERE {$sql}"; //final query
         // var_dump($this->_data);
-        
+
         $stmt = $this->query($sql, $data);
 
         switch ($stmt->rowCount()) {
@@ -218,7 +218,7 @@ class BASE_MODEL
 
             foreach((array) $obj as $prop=>$val)
                 $this->set($prop, $val, 0);
-            
+
             $this->_fetched = 1;
             return $this;
             break;
@@ -227,14 +227,14 @@ class BASE_MODEL
 
             $results = array();
             $classname = ($this->_className);
-            
+
             foreach ($objs as $obj) {
                 $result = new $classname;
                 $result->_data = (array) $obj;
                 $result->_fetched = 1;
                 $results[] = $result;
             }
-            
+
             return $results;
 
             break;
@@ -242,9 +242,9 @@ class BASE_MODEL
     }
 
     /**
-     * Fetch all rows from db 
+     * Fetch all rows from db
      * Doesn't use WHERE clause
-     * 
+     *
      * @return mixed array_of_rows
      */
     public function fetchAll()
@@ -255,20 +255,20 @@ class BASE_MODEL
 
         $results = array();
         $classname = $this->_className;
-        
+
         foreach ($objs as $obj) {
             $result = new $classname;
             $result->_data = (array) $obj;
             $result->_fetched = 1;
             $results[] = $result;
         }
-            
+
         return $results;
     }
 
     /**
      * Update Rows in db
-     * 
+     *
      * @return void
      */
     public function update()
@@ -318,7 +318,7 @@ class BASE_MODEL
         //$vals["_table"] = $this->_table;
 
         //var_dump($sql , $this->_data , $this->_changes);
-        
+
         return $this->query($sql, $this->_data);
 
     }
