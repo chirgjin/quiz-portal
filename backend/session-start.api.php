@@ -7,8 +7,6 @@ $session = new SESSION;
 $session->verify();
 $user    = $session->user;
 
-echo setting_get("event_name");
-
 if (!$user) {
     sendApiError("User not logged in");
 } else if ($user->starting_time != null) {
