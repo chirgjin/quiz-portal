@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . "/base.class.php";
 /**
- * Question class
- * Add/Remove/Update Questions from db
+ * Submission class
+ * Add/Remove/Update User Submissions from db
  */
 class SUBMISSION EXTENDS BASE_MODEL
 {
@@ -42,5 +42,25 @@ class SUBMISSION EXTENDS BASE_MODEL
         } else {
             return -1; //Negative marks for Wrong Answer
         }
+    }
+
+    /**
+     * Update Rows in db
+     * 
+     * @return void
+     */
+    public function update()
+    {
+        $sql = "UPDATE `" . parent::table() . "` SET `answer`=:answer WHERE `ques_id`=:ques_id AND `user_id`=:user_id";
+
+        $data = array(
+            "answer" => parent::get("answer"),
+            "ques_id"=> parent::get("ques_id"),
+            "user_id"=> parent::get("user_id"),
+        );
+
+        parent::query($sql, $data);
+        
+        return $this;
     }
 }

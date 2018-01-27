@@ -14,7 +14,7 @@ class QUESTION EXTENDS BASE_MODEL
      */
     public function __construct() 
     {
-        parent::__construct("QUESTION");
+        parent::__construct( get_class($this) );
         parent::table("questions");
         parent::fields(
             array(
@@ -94,6 +94,16 @@ class QUESTION EXTENDS BASE_MODEL
 
             return false;
         }
+    }
+
+    /**
+     * Function to load a random row from DB
+     * 
+     * @return self
+     */
+    public function loadRandom()
+    {
+        //Wrrite some code here..
     }
 }
 

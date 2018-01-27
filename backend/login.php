@@ -60,7 +60,7 @@ header("access-control-allow-credentials:true");
 header("Access-Control-Allow-Headers:access-control-allow-headers,access-control-allow-credentials,content-type");
 header("Content-Type:application/json");
 
-$_POST = json_decode(file_get_contents('php://input'), true);
+//$_POST = json_decode(file_get_contents('php://input'), true);
 if (!isset($_POST) || !isset($_POST['isTeam'])) {
     sendApiError("Invalid Method/Arguments");
 } else if ($session->verify()) { //session already exists..
@@ -75,6 +75,11 @@ if ($_POST['isTeam'] == 'false') {
         
         $session->start($verify);
         
+        if ($verify->starting_time == null) {
+            $verify->starting_time = time();
+            $verify->update();
+        }
+
         sendApiSuccess(
             array("starting_time" => $verify->starting_time , "ending_time" => $verify->endTime())
         );
@@ -89,6 +94,12 @@ if ($_POST['isTeam'] == 'false') {
         // session start
 
         $session->start($verify);
+
+        if ($verify->starting_time == null) {
+            $verify->starting_time = time();
+            $verify->update();
+        }
+
         sendApiSuccess(
             array("starting_time" => $verify->starting_time , "ending_time" => $verify->endTime())
         );

@@ -42,9 +42,10 @@ class USER extends BASE_MODEL
      * 
      * @return boolean
      */
-    public function isSuperUSer() {
+    public function isSuperUSer()
+    {
 
-        return parent::get("id") == 1;
+        return parent::get("is_admin") == 1;
 
     }
     

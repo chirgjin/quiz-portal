@@ -285,7 +285,7 @@ class BASE_MODEL
 
         if($sql == '')
             return $this;
-
+        
         $data["id"] = $this->get("id");
 
         $sql = substr($sql , 0 , -2); //Remove ", "
