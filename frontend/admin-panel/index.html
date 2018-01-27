@@ -5,44 +5,24 @@
     <link href="css/normalize.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
-    <title>Questions</title>
+    <title>Admin Panel</title>
 </head>
 <body>
     <div class="container">
-        <h2>Question 1</h2>
-        <form method="GET" action="result.php">
-            <div class="form-group">
-                <label>Question 1</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Option 1</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Option 2</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Option 3</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Option 4</label>
-                <input type="text" class="form-control">
-            </div>
-            <div class="radio">
-                <p class="lead">Correct Option</p>
-                <label class="radio-inline"><input type="radio">Option 1</label>
-                <label class="radio-inline"><input type="radio">Option 2</label>
-                <label class="radio-inline"><input type="radio">Option 3</label>
-                <label class="radio-inline"><input type="radio">Option 4</label>
-            </div>
-            <br>
-            <button class="btn btn-default">Prev</button>
-            <button class="btn btn-primary">Next</button>
-            <button type="submit" class="pull-right btn btn-success">Submit</button>
-        </form>
+        <div class="row" id="login">
+            <h2 class="text-center mute">Login</h2>
+                <form method="GET" action="panel.html">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" name="username" placeholder="username" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+        </div>
     </div>
 </body>
 <script

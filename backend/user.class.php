@@ -39,7 +39,7 @@ class USER extends BASE_MODEL
 
     /**
      * Check if user has extra privileges
-     * 
+     *
      * @return boolean
      */
     public function isSuperUSer()
@@ -48,7 +48,7 @@ class USER extends BASE_MODEL
         return parent::get("is_admin") == 1;
 
     }
-    
+
     /**
      * Get ending time
      */
