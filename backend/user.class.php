@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . "/base.class.php";
+
 /**
  * User Class
  *
