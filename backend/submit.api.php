@@ -13,6 +13,8 @@ if (!$user) {
     sendApiError("User not logged in");
 } else if ($user->endTime() < time()) {
     sendApiError("Submission time ended!");
+} else if ($user->submitted == '1') {
+    sendApiError("Final submission already done!");
 }
 
 $question_id = (int) $_POST['ques_id'];
