@@ -322,4 +322,22 @@ class BASE_MODEL
 
     }
 
+    /**
+     * Delete row from table
+     * 
+     * @return self
+     */
+    public function delete()
+    {
+        if (!$this->get("id")) {
+            return ; //Don't delete if there's no id present.. (Considers id to be primary & thus SUBMISSION table needs a separate fnc override)
+        }
+        
+        $sql = "DELETE FROM `{$this->_table}` WHERE `id`=:id";
+        $data = array("id"=>$this->get("id"));
+
+        $stmt = $this->query($sql, $data);
+
+        return $this;
+    }
 }
