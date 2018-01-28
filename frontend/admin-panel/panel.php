@@ -1,3 +1,11 @@
+<?php
+
+require_once '../../backend/user.class.php';
+require_once '../../backend/question.class.php';
+require_once '../../backend/submission.class.php';
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +31,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>id</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Submitted</th>
@@ -30,21 +39,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>Mary</td>
-                        <td>Moe</td>
-                        <td>mary@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>July</td>
-                        <td>Dooley</td>
-                        <td>july@example.com</td>
-                    </tr>
+                    <?php
+                        $users = (new USER)->fetchAll();
+                    ?>
+                    <?php foreach($users as $user) { ?>
+                        <tr>
+                            <td><?php echo $user->id ?></td>
+                            <td><?php echo $user->name ?></td>
+                            <td><?php echo $user->email ?></td>
+                            <td><?php echo $user->submitted ?></td>
+                            <td><?php echo $user->team_name ?></td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -59,31 +65,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>Mary</td>
-                        <td>Moe</td>
-                        <td>mary@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>July</td>
-                        <td>Dooley</td>
-                        <td>july@example.com</td>
-                    </tr>
+                    <?php
+                        $submissions = (new SUBMISSION)->fetchAll();
+                    ?>
+                    <?php foreach($submissions as $submission) { ?>
+                        <tr>
+                            <td><?php echo $submission->user_id ?></td>
+                            <td><?php echo $submission->question_id ?></td>
+                            <td><?php echo $submission->answer ?></td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
         <div id="questions">
             <h2>Questions</h2>
-            <div class="jumbotron text-center" id="ifnull">
-                <h2>No Questions to be answered</h2>
-                <button class="btn btn-success btn-lg">Add a Question</button>
-                <button class="btn btn-primary btn-lg">Add Multiple Questions</button>
-            </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -96,23 +92,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>john@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>Mary</td>
-                        <td>Moe</td>
-                        <td>mary@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>July</td>
-                        <td>Dooley</td>
-                        <td>july@example.com</td>
-                    </tr>
+                    <?php
+                        $questions = (new QUESTION)->fetchAll();
+                    ?>
+                    <?php foreach($questions as $question) { ?>
+                        <tr>
+                            <td><?php echo $question->question ?></td>
+                            <td><?php echo $question->option1 ?></td>
+                            <td><?php echo $question->option2 ?></td>
+                            <td><?php echo $question->option3 ?></td>
+                            <td><?php echo $question->option4 ?></td>
+                            <td><?php echo $question->correct ?></td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
+            <a href="questions.html"><button class="btn btn-success pull-right">Add Questions</button></a>
         </div>
     </div>
 </body>
@@ -120,5 +115,5 @@
 src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
 crossorigin="anonymous"></script>
-<script src="js/panel.js"></script>
+<script src="js/questions.js"></script>
 </html>
