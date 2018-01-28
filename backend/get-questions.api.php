@@ -74,7 +74,7 @@ if ( $_SERVER['REQUEST_METHOD'] == "GET" ) {
     }
 
     die(
-        json_encode($questions)
+        sendApiSuccess($questions)
     );
 
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
