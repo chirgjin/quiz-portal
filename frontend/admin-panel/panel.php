@@ -4,6 +4,14 @@ require_once '../../backend/user.class.php';
 require_once '../../backend/question.class.php';
 require_once '../../backend/submission.class.php';
 
+$users = (new USER)->fetchAll();
+
+var_dump(empty($users));
+
+if(empty($users)) {
+    echo 'hello';
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -115,5 +123,5 @@ require_once '../../backend/submission.class.php';
 src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
 crossorigin="anonymous"></script>
-<script src="js/questions.js"></script>
+<script src="js/panel.js"></script>
 </html>
