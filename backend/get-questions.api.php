@@ -15,45 +15,83 @@ if (!$session->verify()) {
     sendApiError("user not logged in");
 }
 
-$submission = new SUBMISSION;
-$submission->user_id = $session->user->id;
 
-$submissions = $submission->fetch();
+if ( $_SERVER['REQUEST_METHOD'] == "GET" ) {
+    $submission = new SUBMISSION;
+    $submission->user_id = $session->user->id;
 
-$ids = array();
+    $submissions = $submission->fetch();
 
-if ($submissions != null) {
-    foreach($submissions as $submission)
-        $ids[] = $submission->ques_id;
-} else {
-    for ($i=0;$i<20;$i++) {
-        $question = new QUESTION;
-        $question->loadRandom();
+    $ids = array();
 
-        if (!in_array($question->id, $ids)) {
-            $ids[] = $question->id;
+    if ($submissions != null) {
+        if(!is_array($submissions))
+            $submissions = array($submissions);
+        
+        foreach($submissions as $submission)
+            $ids[] = $submission->ques_id;
+    } else {
+        /*
+        for ($i=0;$i<20;$i++) {
+            $question = new QUESTION;
+            $question->loadRandom();
+
+            if (!in_array($question->id, $ids)) {
+                $ids[] = $question->id;
+                $submission = new SUBMISSION;
+                $submission->user_id = $session->user->id;
+                $submission->ques_id = $question->id;
+                $submission->answer  = 0;
+                $submission->insert();
+            }
+            //else $i--;
+        }*/
+
+        $question_amt = setting_get("no_of_questions");
+
+        foreach ((new QUESTION)->loadRandom($question_amt) as $question) {
             $submission = new SUBMISSION;
             $submission->user_id = $session->user->id;
             $submission->ques_id = $question->id;
             $submission->answer  = 0;
             $submission->insert();
+            $ids[] = $question->id;
         }
-        //else $i--;
     }
-}
 
-$question_cls = new QUESTION;
+    $question_cls = new QUESTION;
 
-$questions = array();
+    $questions = array();
 
-foreach ($question_cls->fetchAll() as $question) {
-    $questions[] = array(
-        "id" => $question->id,
-        "question" => $question->question,
-        "options"  => $question->options()
+    foreach ($ids as $id) {
+        $question = (new QUESTION)->set("id" , $id)->fetch();
+
+        $questions[] = array(
+            "id" => $question->id,
+            "question" => $question->question,
+            "options"  => $question->options()
+        );
+    }
+
+    die(
+        json_encode($questions)
     );
-}
 
-die(
-    json_encode($questions)
-);
+} else if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $submissions = json_decode($_POST['data']);
+
+    foreach ($submissions as $submission) {
+        $sub_cls = new SUBMISSION;
+        $sub_cls->ques_id = $submission->ques_id;
+        $sub_cls->answer  = $submission->answer;
+        $sub_cls->user_id = $session->user->id;
+
+        $sub_cls->update();
+    }
+
+    $session->user->set("submitted", 1)->update();
+
+    sendApiSuccess();
+}
+else
+    sendApiError("Invalid Method");

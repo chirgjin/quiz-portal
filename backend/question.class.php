@@ -99,11 +99,28 @@ class QUESTION EXTENDS BASE_MODEL
     /**
      * Function to load a random row from DB
      * 
-     * @return self
+     * @param int $number number of records to return
+     * 
+     * @return array self
      */
-    public function loadRandom()
+    public function loadRandom($number)
     {
         //Wrrite some code here..
+
+        $sql = "SELECT * FROM `" . parent::table() . "` ORDER BY RAND() LIMIT 0,{$number}";
+
+        $stmt = parent::query($sql, array());
+
+        $objs = array();
+        
+        foreach ($stmt->fetchAll() as $obj) {
+            $ques = new QUESTION;
+            foreach((array)$obj as $key=>$val)
+                $ques->$key = $val;
+            $objs[] = $ques;
+        }
+
+        return $objs;
     }
 }
 
