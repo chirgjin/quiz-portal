@@ -1,5 +1,12 @@
 <?php
-require_once __DIR__ . "/user.class.php";
+/**
+ * Login Api
+ * 
+ * @category Login
+ * @package  LOGINAPI
+ * @author   Shreyans <shreyans@gmail.com>
+ */
+require_once __DIR__ . "/check.php";
 
 /*
 class Verification
@@ -45,33 +52,58 @@ class Verification
 }
 */
 
+$session = new SESSION;
 $verify = new USER;
 
-if(!isset($_POST)) {
-    echo 'post not set';
+header("Access-Control-Allow-Origin:http://localhost:3000");
+header("access-control-allow-credentials:true");
+header("Access-Control-Allow-Headers:access-control-allow-headers,access-control-allow-credentials,content-type");
+header("Content-Type:application/json");
+
+//$_POST = json_decode(file_get_contents('php://input'), true);
+if (!isset($_POST) || !isset($_POST['isTeam'])) {
+    sendApiError("Invalid Method/Arguments");
+} else if ($session->verify()) { //session already exists..
+    sendApiError("User already logged in");
 }
 
-if($_POST['isTeam'] == 'false') {
+if ($_POST['isTeam'] == 'false') {
     $verify->email = $_POST['email'];
     $verify->phone = $_POST['phone'];
-    if(!($verify->fetch() == null)) {
+    if (!($verify->fetch() == null)) {
         // session start
-        $_SESSION['id'] = $verify->id;
-        echo json_encode(array('success' => true));
+        
+        $session->start($verify);
+        
+        if ($verify->starting_time == null) {
+            $verify->starting_time = time();
+            $verify->update();
+        }
+
+        sendApiSuccess(
+            array("starting_time" => $verify->starting_time , "ending_time" => $verify->endTime())
+        );
+
     } else {
-        echo json_encode(array('success' => false));
+        sendApiError("Invalid Credentials");
     }
-} else if($_POST['isTeam'] == 'true') {
+} else if ($_POST['isTeam'] == 'true') {
     $verify->team_name = $_POST['teamName'];
     $verify->team_code = $_POST['teamCode'];
-    if(!($verify->fetch() == null)) {
+    if (!($verify->fetch() == null)) {
         // session start
-        $_SESSION['id'] = $verify->id;
-        echo json_encode(array('success' => true));
+
+        $session->start($verify);
+
+        if ($verify->starting_time == null) {
+            $verify->starting_time = time();
+            $verify->update();
+        }
+
+        sendApiSuccess(
+            array("starting_time" => $verify->starting_time , "ending_time" => $verify->endTime())
+        );
     } else {
-        echo json_encode(array('success' => false));
+        sendApiError("Invalid credentials");
     }
 }
-
-
-?>
