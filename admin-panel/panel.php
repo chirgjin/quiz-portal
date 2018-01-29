@@ -133,11 +133,11 @@ require_once __DIR__ . "/check.php";
                 </div>
                 <div class="form-group">
                     <label>Starting Time</label>
-                    <input type="datetime-local" name="start_time" class="form-control" value="<?php echo date("d-m-Y h:m", setting_get("time_start")); ?>">
+                    <input type="datetime-local" name="start_time" class="form-control" value="<?php echo date("Y-m-d", setting_get("time_start")) . "T" . date("h:m", setting_get("time_start")); ?>">
                 </div>
                 <div class="form-group">
                     <label>Ending Time</label>
-                    <input type="datetime-local" name="end_time" class="form-control" value="<?php echo date("d-m-Y h:m", setting_get("time_end")); ?>">
+                    <input type="datetime-local" name="end_time" class="form-control" value="<?php echo date("Y-m-d", setting_get("time_end")) . "T" . date("h:m", setting_get("time_end")); ?>">
                 </div>
                 <div class="form-group">
                     <label>Number of Students to be qualified</label>
