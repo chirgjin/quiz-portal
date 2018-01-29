@@ -18,16 +18,14 @@ class Quiz extends Component {
 				'Content-Type': 'application/json',
 			},
 			credentials: 'include'
+		}).then(res => res.json())
+		.then((json) => {
+			if(!json.data)
+				json.data = [];
+			this.setState({questions : json.data});
 		})
-		.then(res => res.json())
-		.then(json => {
-			this.setState({
-				questions : json,
-			});
-			console.log(this.state.questions);
-		})
-		.then(err => err)
-	}
+		.catch(err => console.log(err))
+		}
 	    
 	display_ques(ques){
 		alert(ques.id)
@@ -47,12 +45,13 @@ class Quiz extends Component {
 			},
 			credentials : 'include',
 			body : JSON.stringify(data)			
-		})
+		})		
 		.then(res => res.json())
 		.then(json => console.log(json))
 		.catch(err => err)
 	}
 	render() {
+		console.log(this.state.questions)
 		if(this.state.questions=== null){
 			return (
 				<div>SomeThing Went Wrong</div>
@@ -68,10 +67,11 @@ class Quiz extends Component {
 						</div>
 						<div className="question_slider">
 							{
-								this.state.questions.map((ques) => {
+								this.state.questions.map((ques,index) => {
+									console.log(ques.id)
 									return(
 										<div key={ques.id} onClick={()=> this.display_ques(ques)} className='question'>
-											Q{ques.id}
+											Q{index+1}
 										</div>
 									);
 								})
@@ -88,12 +88,12 @@ class Quiz extends Component {
 												<form>
 													<br/><h3>{ques.question}</h3><br/>
 													<div className="radio_wrap_l" >
-													<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[0])} className='radio' name="optradio"/><h4>{ques.options[0]}</h4>
-													<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[1])} className='radio' name="optradio"/><h4>{ques.options[1]}</h4>
+														<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[0])} className='radio' name="optradio"/><h4>{ques.options[0]}</h4>
+														<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[1])} className='radio' name="optradio"/><h4>{ques.options[1]}</h4>
 													</div>
 													<div className="radio_wrap_r">
-													<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[2])} className='radio' name="optradio"/><h4>{ques.options[2]}</h4>
-													<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[3])} className='radio' name="optradio"/><h4>{ques.options[3]}</h4>
+														<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[2])} className='radio' name="optradio"/><h4>{ques.options[2]}</h4>
+														<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[3])} className='radio' name="optradio"/><h4>{ques.options[3]}</h4>
 													</div>												
 												</form>
 											</div><br/><br/>

@@ -87,14 +87,18 @@ class Login extends Component {
 		.then((json) => {
 			console.log(json);
 			this.setState({response:json});
-			this.props.statusUpdate.bind(this,this.state.response);
+				console.log(this.state.response.success)
+				if(this.state.response.success === 1){
+					console.log('comming')
+					window.location.href = 'http://localhost:3000/dashboard'
+				}
 		})
 		.catch(err => console.log(err));
 	}
 	preventDefault(event) {
 		event.preventDefault();
 		return false;
-	}
+	};
   render() {
 	// console.log(this.state.loner_status);
 	// console.log(this.state.team_status);
@@ -102,15 +106,19 @@ class Login extends Component {
                 <div className="row">
 			<div className="col-3 form_details">
 				<div className= {this.state.selectParticipationType}>
-					<img src={require('../img/quizapp.jpg')} alt=""/>
-					<button onClick={this.loner.bind(this)}  className = 'loner_type'>Loner Register</button><br/><br/>
-					<button onClick={this.team.bind(this)}  className = 'team_type'>Team Register</button>
+					<img className="logo-login" src={require('../img/quizapp.jpg')} alt=""/>
+					<div className="vertical-align">
+						<button onClick={this.loner.bind(this)}  className = 'loner_type'>Loner Register</button><br/><br/>
+						<button onClick={this.team.bind(this)}  className = 'team_type'>Team Register</button>
+					</div>
 				</div>
 				<div className = {this.state.hidden}>
 					<form onSubmit={this.preventDefault.bind(this)} >
-						<input placeholder={this.state.particapationType1} value={this.state.credential1} onChange={this.handelCredential1Change.bind(this)} className='credential_1' required type={this.state.inputType}/>
-						<input placeholder={this.state.particapationType2} value={this.state.credential2} onChange={this.handelCredential2Change.bind(this)} className='credential_2' required type="text"/>
-						<button onClick= {this.Submit.bind(this)} className = 'submit_form'>Submit</button>
+						<div className="vertical-align">
+							<input placeholder={this.state.particapationType1} value={this.state.credential1} onChange={this.handelCredential1Change.bind(this)} className='credential_1' required type={this.state.inputType}/>
+							<input placeholder={this.state.particapationType2} value={this.state.credential2} onChange={this.handelCredential2Change.bind(this)} className='credential_2' required type="text"/>
+							<button onClick= {this.Submit.bind(this)} className = 'submit_form'>Submit</button>
+						</div>
 					</form>
 				</div>
 			</div>

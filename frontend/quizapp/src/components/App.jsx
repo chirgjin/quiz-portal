@@ -7,7 +7,8 @@ class App extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			status : null
+			status : null,
+			base_domain : `http://quizportal.cf/backend/`
 		}
 	}
 	statusUpdate(obj){
@@ -19,8 +20,8 @@ class App extends Component {
 		return (
 			<BrowserRouter>
 				<div>
-					<Route path='/login' statusUpdate = {this.statusUpdate.bind(this)}  component={Login} />
-					<Route path='/dashboard' component={Quiz} />
+					<Route path='/login' statusUpdate = {this.statusUpdate.bind(this)}  component={Login} baseUrl={this.state.base_domain} />
+					<Route path='/dashboard' component={Quiz} baseUrl={this.state.base_domain} />
 				</div>
 			</BrowserRouter>
 		);
