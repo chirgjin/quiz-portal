@@ -14,7 +14,8 @@ class Login extends Component {
 			particapationType2 : "",
 			hidden : 'hidden',
 			selectParticipationType : 'selectParticipationType',
-			inputType : ''
+			inputType : '',
+			response : null
 		}
 	}
 
@@ -72,41 +73,67 @@ class Login extends Component {
 				teamCode : this.state.credential2
 			}
 		}
-
+		let base_url = 'http://quizportal.cf/backend/login.php';
 		console.log(data.isTeam);
-		// fetch('http://anidl.cf/quiz/login', {
-		// 	method: 'GET',
-		// 	headers: 
-		// }).then(res => {
-		// 	console.log(res);
-		// 	return res;
-		// }).catch(err => console.log(err));
-
+		fetch(base_url, {
+			method: 'POST',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+			},
+			credentials : 'include',
+			body : JSON.stringify(data)
+		}).then(res => res.json())
+		.then((json) => {
+			console.log(json);
+			this.setState({response:json});
+			this.props.statusUpdate.bind(this,this.state.response);
+		})
+		.catch(err => console.log(err));
+	}
+	preventDefault(event) {
+		event.preventDefault();
+		return false;
 	}
   render() {
 	// console.log(this.state.loner_status);
 	// console.log(this.state.team_status);
     return (
-        <div className="login-wrap">
                 <div className="row">
-			<div className="col-3 ">
+			<div className="col-3 form_details">
 				<div className= {this.state.selectParticipationType}>
-					<button onClick={this.loner.bind(this)}  className = 'loner_type'>Loner Register</button>
+					<img src={require('../img/quizapp.jpg')} alt=""/>
+					<button onClick={this.loner.bind(this)}  className = 'loner_type'>Loner Register</button><br/><br/>
 					<button onClick={this.team.bind(this)}  className = 'team_type'>Team Register</button>
 				</div>
 				<div className = {this.state.hidden}>
-					<input placeholder={this.state.particapationType1} value={this.state.credential1} onChange={this.handelCredential1Change.bind(this)} className='credential_1' type={this.state.inputType}/>
-					<input placeholder={this.state.particapationType2} value={this.state.credential2} onChange={this.handelCredential2Change.bind(this)} className='credential_2' type="text"/>
-					<button onClick= {this.Submit.bind(this)} className = 'submit_form'>Submit</button>
+					<form onSubmit={this.preventDefault.bind(this)} >
+						<input placeholder={this.state.particapationType1} value={this.state.credential1} onChange={this.handelCredential1Change.bind(this)} className='credential_1' required type={this.state.inputType}/>
+						<input placeholder={this.state.particapationType2} value={this.state.credential2} onChange={this.handelCredential2Change.bind(this)} className='credential_2' required type="text"/>
+						<button onClick= {this.Submit.bind(this)} className = 'submit_form'>Submit</button>
+					</form>
 				</div>
 			</div>
 			<div className="col-9 section-background"> 
 
 			</div>
 		</div>
-        </div>
     );
   }
 }
 
 export default Login;
+
+
+
+
+
+
+
+/*response casesdekh le
+1 - { success : false , message : "Whatever error occured - Invalid Credentials / User already logged in / Invalid Method / Invalid Arguments" }
+2 - { success : true , starting_time : null or timestamp , ending_time : null or timestamp }
+jab tu  call krega to tujhe current timestamp mil jaega usko use krke check ke ending_time is less than current time or not*/
+
+// chirgjin@gmail.com
+// 9212040857

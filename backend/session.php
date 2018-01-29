@@ -75,7 +75,8 @@ class SESSION
     }
 
     public function destory() {
-        $this->user(0);
+        if(isset($this))
+            $this->user(0);
         unset($_SESSION['id']);
     }
 
