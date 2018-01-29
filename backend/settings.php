@@ -43,7 +43,27 @@
         public function _SET($prop,$val,$store=null)
         {
             parent::set("parameter" , $prop)->set("value",$val);
-            parent::update();
+            $this->update();
+        }
+
+        /**
+         * Update function
+         * 
+         * @return void
+         */
+        public function update()
+        {
+
+            $sql = "UPDATE `" . parent::table() . "` SET `parameter` = :parameter , `value` = :value WHERE `parameter` = :parameter";
+
+            parent::query(
+                $sql,
+                array(
+                    "parameter" => parent::get("parameter"),
+                    "value" => parent::get("value")
+                )
+            );
+
         }
     }
 
@@ -72,5 +92,5 @@
      */
     function setting_set($prop,$val) {
         $setting = new SETTINGS;
-        return $setting->_SET($prop,$val);
+        $setting->_SET($prop,$val);
     }

@@ -1,8 +1,6 @@
 <?php
 
-require_once '../../backend/user.class.php';
-require_once '../../backend/question.class.php';
-require_once '../../backend/submission.class.php';
+require_once __DIR__ . "/check.php";
 
 ?>
 
@@ -120,31 +118,30 @@ require_once '../../backend/submission.class.php';
                     <?php } ?>
                 </tbody>
             </table>
-            <a href="questions.html"><button class="btn btn-success pull-right">Add Questions</button></a>
+            <a href="questions.php"><button class="btn btn-success pull-right">Add Questions</button></a>
         </div>
         <div id="settings">
             <h2>Settings</h2>
-            <form method="GET" action="settings.panel.php">
+            <form method="POST" action="settings.php">
                 <div class="form-group">
                     <label>Event Name</label>
-                    <input type="text" name="event_name" class="form-control">
+                    <input type="text" name="event_name" class="form-control" value="<?php echo setting_get("event_name"); ?>" >
                 </div>
                 <div class="form-group">
                     <label>Event Code</label>
-                    <input type="text" name="event_code" class="form-control">
+                    <input type="text" name="event_code" class="form-control" value="<?php echo setting_get("event_code"); ?>" >
                 </div>
                 <div class="form-group">
                     <label>Starting Time</label>
-                    <input type="datetime-local" name="start_time" class="form-control">
+                    <input type="datetime-local" name="start_time" class="form-control" value="<?php echo date("d-m-Y h:m", setting_get("time_start")); ?>">
                 </div>
                 <div class="form-group">
                     <label>Ending Time</label>
-                    <input type="datetime-local" name="end_time" class="form-control">
+                    <input type="datetime-local" name="end_time" class="form-control" value="<?php echo date("d-m-Y h:m", setting_get("time_end")); ?>">
                 </div>
                 <div class="form-group">
                     <label>Number of Students to be qualified</label>
-                    <input type="number" name="qualifier.
-                    " class="form-control">
+                    <input type="number" name="qualifier_number" class="form-control" value="<?php echo setting_get("qualifier_number"); ?>" >
                 </div>
                 <input type="hidden" name="url" value="panel.php">
                 <button type="submit" class="btn btn-primary pull-right">Save</button>
