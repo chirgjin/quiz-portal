@@ -10,6 +10,7 @@
  */
 
 require_once __DIR__ . "/user.class.php";
+require_once __DIR__ . "/question.class.php";
 
 /**
  * Fetch Data from API
@@ -66,7 +67,7 @@ function fetchUsers($url = "https://nsc-api.herokuapp.com/nsc/api/webathon_api")
         $user->set("name", $usr->first_name . " " . $usr->last_name);
         $user->set("email", $profile->email)->set("phone", $profile->phone);
 
-        $user->save(1);
+        $user->insert();
 
         $participant->user = $user;
     }
@@ -76,3 +77,30 @@ function fetchUsers($url = "https://nsc-api.herokuapp.com/nsc/api/webathon_api")
 }
 
 print_r(fetchUsers());
+
+/**
+ * Update marks
+ * 
+ * @return users
+ */
+function updateMarks()
+{
+    $users = (new USER)->fetchAll();
+
+    foreach ($users as $user) {
+        $submissions = $user->submissions();
+
+        $marks = 0;
+
+        foreach ($submissions as $submission) {
+            $marks += $submission->calculateMarks();
+        }
+
+        $user->marks = $marks;
+        $user->update();
+    }
+
+    return $users;
+}
+
+print_r( updateMarks() );

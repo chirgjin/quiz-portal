@@ -1,16 +1,6 @@
 <?php
 
-require_once '../../backend/user.class.php';
-require_once '../../backend/question.class.php';
-require_once '../../backend/submission.class.php';
-
-$users = (new USER)->fetchAll();
-
-var_dump(empty($users));
-
-if(empty($users)) {
-    echo 'hello';
-}
+require_once __DIR__ . "/check.php";
 
 ?>
 
@@ -30,6 +20,7 @@ if(empty($users)) {
               <li id="p"><a href="#">Paricipants</a></li>
               <li id="s"><a href="#">Submissions</a></li>
               <li id="q"><a href="#">Questions</a></li>
+              <li id="set"><a href="#">Settings</a></li>
             </ul>
         </div>
     </nav>
@@ -44,6 +35,7 @@ if(empty($users)) {
                         <th>Email</th>
                         <th>Submitted</th>
                         <th>Team Name</th>
+                        <th>Marks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,6 +49,7 @@ if(empty($users)) {
                             <td><?php echo $user->email ?></td>
                             <td><?php echo $user->submitted ?></td>
                             <td><?php echo $user->team_name ?></td>
+                            <td><?php echo $user->marks ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -67,9 +60,10 @@ if(empty($users)) {
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>User Id</th>
-                        <th>Question Id</th>
+                        <th>User</th>
+                        <th>Question</th>
                         <th>Answer</th>
+                        <th>Marks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -77,10 +71,19 @@ if(empty($users)) {
                         $submissions = (new SUBMISSION)->fetchAll();
                     ?>
                     <?php foreach($submissions as $submission) { ?>
+                        <?php
+                            $quest = new QUESTION;
+                            $quest->id = $submission->ques_id;
+                            $quest->fetch();
+
+                            $u  = new USER;
+                            $u->set("id" , $submission->user_id)->fetch();
+                        ?>
                         <tr>
-                            <td><?php echo $submission->user_id ?></td>
-                            <td><?php echo $submission->question_id ?></td>
-                            <td><?php echo $submission->answer ?></td>
+                            <td><?php echo $u->team_name ? "Team - " . $u->team_name : $u->name; ?></td>
+                            <td><?php echo htmlentities($quest->question); ?></td>
+                            <td><?php echo $submission->answer; ?></td>
+                            <td><?php echo $submission->calculateMarks(); ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -115,7 +118,34 @@ if(empty($users)) {
                     <?php } ?>
                 </tbody>
             </table>
-            <a href="questions.html"><button class="btn btn-success pull-right">Add Questions</button></a>
+            <a href="questions.php"><button class="btn btn-success pull-right">Add Questions</button></a>
+        </div>
+        <div id="settings">
+            <h2>Settings</h2>
+            <form method="POST" action="settings.php">
+                <div class="form-group">
+                    <label>Event Name</label>
+                    <input type="text" name="event_name" class="form-control" value="<?php echo setting_get("event_name"); ?>" >
+                </div>
+                <div class="form-group">
+                    <label>Event Code</label>
+                    <input type="text" name="event_code" class="form-control" value="<?php echo setting_get("event_code"); ?>" >
+                </div>
+                <div class="form-group">
+                    <label>Starting Time</label>
+                    <input type="datetime-local" name="start_time" class="form-control" value="<?php echo date("Y-m-d", setting_get("time_start")) . "T" . date("h:m", setting_get("time_start")); ?>">
+                </div>
+                <div class="form-group">
+                    <label>Ending Time</label>
+                    <input type="datetime-local" name="end_time" class="form-control" value="<?php echo date("Y-m-d", setting_get("time_end")) . "T" . date("h:m", setting_get("time_end")); ?>">
+                </div>
+                <div class="form-group">
+                    <label>Number of Students to be qualified</label>
+                    <input type="number" name="qualifier_number" class="form-control" value="<?php echo setting_get("qualifier_number"); ?>" >
+                </div>
+                <input type="hidden" name="url" value="panel.php">
+                <button type="submit" class="btn btn-primary pull-right">Save</button>
+            </form>
         </div>
     </div>
 </body>

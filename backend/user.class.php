@@ -59,4 +59,24 @@ class USER extends BASE_MODEL
 
         return parent::get("ending_time");
     }
+
+    /**
+     * Get all submissions
+     * 
+     * @return array of SUBMISSIONs
+     */
+    public function submissions() {
+        require_once(__DIR__ . "/submission.class.php");
+
+        $submissions = new SUBMISSION;
+        $submissions->user_id = parent::get("id");
+        $results = $submissions->fetch();
+
+        if( empty($results) || $results == null )
+            return array();
+        else if( !is_array($results) )
+            $results = array( $results );
+        
+        return $results;
+    }
 }
