@@ -76,3 +76,30 @@ function fetchUsers($url = "https://nsc-api.herokuapp.com/nsc/api/webathon_api")
 }
 
 print_r(fetchUsers());
+
+/**
+ * Update marks
+ * 
+ * @return users
+ */
+function updateMarks()
+{
+    $users = (new USER)->fetchAll();
+
+    foreach ($users as $user) {
+        $submissions = $user->submissions();
+
+        $marks = 0;
+
+        foreach ($submissions as $submission) {
+            $marks += $submission->calculateMarks();
+        }
+
+        $user->marks = $marks;
+        $user->update();
+    }
+
+    return $users;
+}
+
+print_r( updateMarks() );
