@@ -58,9 +58,16 @@ input{
         position: relative;
         border: 2px solid #38305B;
         padding-left: 20px;
+        padding-right: 20px;
+        text-align: center;
+        letter-spacing: 3px;
+        color: #38305B;
 }
 input:focus{
         outline: 0;
+}
+form{
+        color: #38305B;
 }
 .vertical-align{
         width: 100%;
@@ -73,4 +80,8 @@ input:focus{
         width: 100%;
         height: 100%;
         position: absolute;
+}
+
+.hidden{
+        display: none;
 }

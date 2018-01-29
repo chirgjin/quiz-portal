@@ -7,6 +7,9 @@ class Quiz extends Component {
 		super(props);
 		this.state = {
 			questions : [],
+			response: JSON.parse(localStorage.getItem('response')),
+			credential1: localStorage.getItem('credential1'),
+			credential2:localStorage.getItem('credential2')
 		}
 	}
 	componentDidMount(){
@@ -51,7 +54,10 @@ class Quiz extends Component {
 		.catch(err => err)
 	}
 	render() {
-		console.log(this.state.questions)
+		console.log(this.state.credential1);
+		console.log(this.state.credential2);
+		console.log(this.state.response);
+		console.log(this.state.questions);
 		if(this.state.questions=== null){
 			return (
 				<div>SomeThing Went Wrong</div>
@@ -66,41 +72,35 @@ class Quiz extends Component {
 							<img className="logo" src={require('../img/quizapp.png')} alt=""/>
 						</div>
 						<div className="question_slider">
-							{
-								this.state.questions.map((ques,index) => {
-									console.log(ques.id)
-									return(
-										<div key={ques.id} onClick={()=> this.display_ques(ques)} className='question'>
-											Q{index+1}
-										</div>
-									);
-								})
-							}
+							<strong>Welcome!</strong>
+							<div className='question'>{this.state.credential1}</div>
+							<div className='question'>{this.state.credential2}</div>
 						</div>
 					</div>
 					<div className="col-10 ">
 						<div className="questionForm container">
-							{
-								this.state.questions.map((ques)=>{
-									return(
-										<div key={ques.id}>
-											<div  className="question-box">
-												<form>
-													<br/><h3>{ques.question}</h3><br/>
-													<div className="radio_wrap_l" >
-														<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[0])} className='radio' name="optradio"/><h4>{ques.options[0]}</h4>
-														<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[1])} className='radio' name="optradio"/><h4>{ques.options[1]}</h4>
-													</div>
-													<div className="radio_wrap_r">
-														<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[2])} className='radio' name="optradio"/><h4>{ques.options[2]}</h4>
-														<input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[3])} className='radio' name="optradio"/><h4>{ques.options[3]}</h4>
-													</div>												
-												</form>
-											</div><br/><br/>
-										</div>
-									)
-								})
-							}
+							<h2>Start Quiz</h2>
+							<div className="row" >
+								{
+									this.state.questions.map((ques)=>{
+										return(
+											<div className="col-md-4 question-box" key={ques.id}>
+												<div className="cards" >
+													<form>
+														
+														<strong>{ques.question}</strong><br/>
+															<div className="center_text" ><label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[0])} className='radio' name="optradio"/></span><span>{ques.options[0]}</span></label>
+															<label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[1])} className='radio' name="optradio"/></span><span>{ques.options[1]}</span></label></div>
+															<div className="center_text" ><label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[2])} className='radio' name="optradio"/></span><span>{ques.options[2]}</span></label>
+															<label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[3])} className='radio' name="optradio"/></span><span>{ques.options[3]}</span></label></div>											
+														
+													</form>
+												</div>
+											</div>
+										)
+									})
+								}
+							</div>
 						</div>						
 					</div>
 				</div>

@@ -57,6 +57,8 @@ class Login extends Component {
 	}
 	Submit(){
 		let data;
+		localStorage.setItem('credential1', this.state.credential1);
+		localStorage.setItem('credential2', this.state.credential2);
 		console.log('submit')
 		console.log(`credential1 = ${this.state.credential1}`);
 		console.log(`credential2 = ${this.state.credential2}`);
@@ -88,6 +90,7 @@ class Login extends Component {
 			console.log(json);
 			this.setState({response:json});
 				console.log(this.state.response.success)
+				localStorage.setItem('response', JSON.stringify(json));
 				if(this.state.response.success === 1){
 					console.log('comming')
 					window.location.href = 'http://localhost:3000/dashboard'
@@ -106,13 +109,14 @@ class Login extends Component {
                 <div className="row">
 			<div className="col-3 form_details">
 				<div className= {this.state.selectParticipationType}>
-					<img className="logo-login" src={require('../img/quizapp.jpg')} alt=""/>
+				<img className="logo-login" src={require('../img/quizapp.jpg')} alt=""/>
 					<div className="vertical-align">
 						<button onClick={this.loner.bind(this)}  className = 'loner_type'>Loner Register</button><br/><br/>
 						<button onClick={this.team.bind(this)}  className = 'team_type'>Team Register</button>
 					</div>
 				</div>
 				<div className = {this.state.hidden}>
+				<img className="logo-login" src={require('../img/quizapp.jpg')} alt=""/>
 					<form onSubmit={this.preventDefault.bind(this)} >
 						<div className="vertical-align">
 							<input placeholder={this.state.particapationType1} value={this.state.credential1} onChange={this.handelCredential1Change.bind(this)} className='credential_1' required type={this.state.inputType}/>
@@ -122,8 +126,7 @@ class Login extends Component {
 					</form>
 				</div>
 			</div>
-			<div className="col-9 section-background"> 
-
+			<div className="col-9 section-background">
 			</div>
 		</div>
     );

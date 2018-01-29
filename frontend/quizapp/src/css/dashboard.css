@@ -4,12 +4,13 @@
         background: #38305B;
         overflow-y: auto;
         height: 100vh;
+        padding-left: 0px;
 }
 
 .logo{
         width: 150px;
         position: relative;
-        left: -25px;
+        left: -15px;
         z-index: 1;
     }
 
@@ -39,20 +40,31 @@
         height: 100vh;
         overflow-y: auto;
     }
-.question-box{
-      width: 50%;
-      border-radius: 30px; 
-      padding: 20px;
-      margin: 0 auto;
-      text-align: center;
-      
-        /* -webkit-box-shadow: 3px 3px 3px -3px #999, 3px 3px 3px -3px #999, -3px 3px 3px -3px #999;
-        -moz-box-shadow:    3px 3px 3px -3px #999, 3px 3px 3px -3px #999, -3px 3px 3px -3px #999; */
-        box-shadow:         15px 15px 15px -10px #eee, 15px 15px 15px -10px  #eee, -15px 15px 15px -10px  #eee
+.cards{
+        border-radius: 5px;
+        box-shadow: 0 0 15px #eee;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding-top:5px;
 }
 h3{
         color: #302947;
 }
+h2{
+        text-align: center;
+        color: #302947;
+}
+.question_slider{
+        top: 50%;
+        position: absolute;
+        width: 100%;
+        transform: translateY(-50%);
+        text-align: center;
+        color: white;
+    }
+    input,h4{
+            display: inline;
+    }
 @media only screen and (max-width: 900px) {
         .question_selector{
                 width: 50%;
@@ -94,17 +106,9 @@ input:focus{
 .components-wrap{
         background: #FCFDFF;
 }
-.radio{
-        display: inline-block;
-}
-h4{
-        display: inline-block;
-        margin-left: 5px;
-        margin-right: 20px;
-}
 /* width */
 ::-webkit-scrollbar {
-        width: 20px;
+        width: 5px;
     }
     
     /* Track */
@@ -116,7 +120,7 @@ h4{
     /* Handle */
     ::-webkit-scrollbar-thumb {
         background: #38305B; 
-        border-radius: 10px;
+        border-radius: 5px;
     }
     
     /* Handle on hover */
@@ -124,9 +128,24 @@ h4{
         background: #302947; 
     }
 
-    .radio_wrap_l{
-            text-align: center;
-    }
-    .radio_wrap_r{
+.hidden{
+        display: none;
+}
+
+input[type="radio"] {
+        display: inline-block;
+        width: auto;
+        vertical-align: middle;
+        top: 15px;
+        margin-right: 5px;
+}
+label{
+        margin-left: 10px;
+        margin-right: 10px;
+}
+form{
+        text-align: center;
+}
+.center_text{
         text-align: center;
 }
