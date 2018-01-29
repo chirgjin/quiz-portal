@@ -1,5 +1,9 @@
 <?php
 
+require_once '../../backend/question.class.php';
+
+$ques = new QUESTION;
+
 $query = $_SERVER['QUERY_STRING'];
 $vars = array(
     "question" => array(),
@@ -9,6 +13,7 @@ $vars = array(
     "option4" => array(),
     "correct" => array()
 );
+
 
 foreach (explode('&', $query) as $pair) {
     list($key, $value) = explode('=', $pair);
@@ -34,6 +39,16 @@ foreach (explode('&', $query) as $pair) {
     }
 }
 
-print_r($vars);
+for($i = 0; $i < count($vars['question']); $i++) {
+    $ques->question = $vars['question'][$i];
+    $ques->option1 = $vars['option1'][$i];
+    $ques->option2 = $vars['option1'][$i];
+    $ques->option3 = $vars['option1'][$i];
+    $ques->option4 = $vars['option1'][$i];
+    $ques->correct = $vars['option1'][$i];
+    $ques->insert();
+}
+
+header('Location: panel.php');
 
 ?>
