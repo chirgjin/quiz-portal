@@ -54,6 +54,13 @@ h2{
         text-align: center;
         color: #302947;
 }
+.start_quiz{
+        letter-spacing: 6px;
+        text-transform: uppercase;
+}
+.letter-space{
+        letter-spacing: 1px;
+}
 .question_slider{
         top: 50%;
         position: absolute;
@@ -149,3 +156,8 @@ form{
 .center_text{
         text-align: center;
 }
+.count_down{
+        bottom: 20px;
+        position: absolute;
+        width: 100%;
+    }

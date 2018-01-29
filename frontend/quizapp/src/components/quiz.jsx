@@ -9,8 +9,13 @@ class Quiz extends Component {
 			questions : [],
 			response: JSON.parse(localStorage.getItem('response')),
 			credential1: localStorage.getItem('credential1'),
-			credential2:localStorage.getItem('credential2')
+			credential2:localStorage.getItem('credential2'),
+			min:0,
+			sec:0
 		}
+	}
+	componentWillMount(){
+		this.timer(this.state.response.ending_time,this.state.response.starting_time )
 	}
 	componentDidMount(){
 		let base_url = 'http://quizportal.cf/backend/get-questions.api.php'
@@ -28,11 +33,9 @@ class Quiz extends Component {
 			this.setState({questions : json.data});
 		})
 		.catch(err => console.log(err))
+		// setInterval(() =>this.timer(this.state.response.ending_time,this.state.response.starting_time ), 1000)
 		}
-	    
-	display_ques(ques){
-		alert(ques.id)
-	}
+		
 	radio_submit(ques,e,value){
 		let option = value;
 		let base_url = 'http://quizportal.cf/backend/submit.api.php'
@@ -53,6 +56,16 @@ class Quiz extends Component {
 		.then(json => console.log(json))
 		.catch(err => err)
 	}
+
+	timer(end, start){
+		let time =  end - start;
+		console.log(time);
+		let min = Math.floor(time / 60);
+		let sec = Math.floor(time%60)
+		console.log("min",min,"sec",sec);
+		this.setState({min, sec})
+	}
+
 	render() {
 		console.log(this.state.credential1);
 		console.log(this.state.credential2);
@@ -76,10 +89,13 @@ class Quiz extends Component {
 							<div className='question'>{this.state.credential1}</div>
 							<div className='question'>{this.state.credential2}</div>
 						</div>
+						<div className="count_down">
+							<div className='question'>{this.state.min}:{this.state.sec}</div>
+						</div>
 					</div>
 					<div className="col-10 ">
 						<div className="questionForm container">
-							<h2>Start Quiz</h2>
+							<h2 className="start_quiz">START QUIZ</h2>
 							<div className="row" >
 								{
 									this.state.questions.map((ques)=>{
@@ -88,11 +104,11 @@ class Quiz extends Component {
 												<div className="cards" >
 													<form>
 														
-														<strong>{ques.question}</strong><br/>
-															<div className="center_text" ><label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[0])} className='radio' name="optradio"/></span><span>{ques.options[0]}</span></label>
-															<label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[1])} className='radio' name="optradio"/></span><span>{ques.options[1]}</span></label></div>
-															<div className="center_text" ><label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[2])} className='radio' name="optradio"/></span><span>{ques.options[2]}</span></label>
-															<label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[3])} className='radio' name="optradio"/></span><span>{ques.options[3]}</span></label></div>											
+														<strong className="letter-space">{ques.question}</strong><br/>
+															<div className="center_text" ><label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[0])} className='radio' name="optradio"/></span><span className="letter-space" >{ques.options[0]}</span></label>
+															<label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[1])} className='radio' name="optradio"/></span><span className="letter-space" >{ques.options[1]}</span></label></div>
+															<div className="center_text" ><label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[2])} className='radio' name="optradio"/></span><span className="letter-space" >{ques.options[2]}</span></label>
+															<label><span><input type="radio" onChange={(e)=>this.radio_submit(ques,e,ques.options[3])} className='radio' name="optradio"/></span><span className="letter-space" >{ques.options[3]}</span></label></div>											
 														
 													</form>
 												</div>
