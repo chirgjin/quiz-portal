@@ -283,6 +283,8 @@ class BASE_MODEL
         );
 
         foreach ($this->_changes as $prop=>$val) {
+            if(!in_array($prop,$this->_fields))
+                continue;
             $sql .= "`{$prop}`=:{$prop} , ";
             $data[$prop] = $this->get($prop);
         }
