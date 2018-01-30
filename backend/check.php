@@ -15,3 +15,6 @@ if ($time < START_TIME)
     die("Submission time hasn't started yet.");
 else if ($time > END_TIME)
     die("Submission time has ended.");
+
+
+$dom = $_SERVER['HTTP_ORIGIN']; //"http://quiz-portal1.herokuapp.com";

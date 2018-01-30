@@ -55,7 +55,7 @@ class Verification
 $session = new SESSION;
 $verify = new USER;
 
-header("Access-Control-Allow-Origin:http://localhost:3000");
+header("Access-Control-Allow-Origin:{$dom}");
 header("access-control-allow-credentials:true");
 header("Access-Control-Allow-Headers:access-control-allow-headers,access-control-allow-credentials,content-type");
 

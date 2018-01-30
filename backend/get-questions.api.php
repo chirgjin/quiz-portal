@@ -4,7 +4,7 @@ require_once __DIR__ . "/check.php";
 require_once __DIR__ . "/question.class.php";
 require_once __DIR__ . "/submission.class.php";
 
-header("Access-Control-Allow-Origin:http://localhost:3000");
+header("Access-Control-Allow-Origin:{$dom}");
 header("access-control-allow-credentials:true");
 header("Access-Control-Allow-Headers:access-control-allow-headers,access-control-allow-credentials,content-type");
 header("Content-Type:application/json");
