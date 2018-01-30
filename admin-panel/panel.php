@@ -30,6 +30,7 @@ require_once __DIR__ . "/check.php";
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>Rank</th>
                         <th>id</th>
                         <th>Name</th>
                         <th>Email</th>
@@ -44,6 +45,7 @@ require_once __DIR__ . "/check.php";
                     ?>
                     <?php foreach($users as $user) { ?>
                         <tr>
+                            <td><?php echo $user->rank ?></td>
                             <td><?php echo $user->id ?></td>
                             <td><?php echo $user->name ?></td>
                             <td><?php echo $user->email ?></td>
@@ -100,6 +102,7 @@ require_once __DIR__ . "/check.php";
                         <th>Option 3</th>
                         <th>Option 4</th>
                         <th>Correct</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -114,6 +117,7 @@ require_once __DIR__ . "/check.php";
                             <td><?php echo $question->option3 ?></td>
                             <td><?php echo $question->option4 ?></td>
                             <td><?php echo $question->correct ?></td>
+                            <td><button class="btn btn-default">X</button></td>
                         </tr>
                     <?php } ?>
                 </tbody>
