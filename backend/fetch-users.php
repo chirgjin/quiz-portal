@@ -10,6 +10,7 @@
  */
 
 require_once __DIR__ . "/user.class.php";
+require_once __DIR__ . "/settings.php";
 require_once __DIR__ . "/question.class.php";
 
 /**
@@ -19,8 +20,10 @@ require_once __DIR__ . "/question.class.php";
  *
  * @return mixed data
  */
-function fetchUsers($url = "https://nsc-api.herokuapp.com/nsc/api/webathon_api")
-{
+function fetchUsers($url = "https://nscdesk.me/nsc/api/webathon_api")
+{  
+
+    $url .= "?event_title=" . setting_get("event_name");
     $ch = curl_init($url);
 
     curl_setopt($ch, CURLOPT_POST, true);
@@ -104,3 +107,30 @@ function updateMarks()
 }
 
 print_r( updateMarks() );
+
+function updateRanks() {
+
+
+    include_once __DIR__ . "/dbconfig.php";
+
+    $user = new USER;
+    $sql = "SELECT * FROM `" . $user->table() . "` ORDER BY `marks` DESC";
+    $data = array();
+
+    $stmt = $user->query($sql , $data);
+
+    $rank = 1;
+    foreach ($stmt->fetchAll() as $row) {
+        $user = new USER;
+        $user->id = $row['id'];
+
+        $user->rank = $rank;
+
+        $user->update();
+
+        $rank++;
+    }
+
+}
+
+updateRanks();

@@ -34,7 +34,8 @@ class USER extends BASE_MODEL
                 "starting_time",
                 "team_name",
                 "team_code",
-                "marks"
+                "marks",
+                "rank"
             )
         );
     }

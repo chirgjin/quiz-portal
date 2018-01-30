@@ -38,9 +38,9 @@ class SUBMISSION EXTENDS BASE_MODEL
         $question->fetch();
 
         if ($question->answerIsCorrect($answer)) {
-            return 2; //Positive Marks for Correct Answer
+            return 1; //Positive Marks for Correct Answer
         } else {
-            return -1; //Negative marks for Wrong Answer
+            return 0; //Negative marks for Wrong Answer
         }
     }
 
