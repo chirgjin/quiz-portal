@@ -78,6 +78,17 @@ if ( $_SERVER['REQUEST_METHOD'] == "GET" ) {
     );
 
 } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+    $user = $session->user;
+
+    if ($user->endTime() < time()) {
+        sendApiError("Submission time ended!");
+    } else if ($user->submitted == '1') {
+        sendApiError("Final submission already done!");
+    }
+    
+    $_POST = json_decode(file_get_contents('php://input'), true);
+
     $submissions = json_decode($_POST['data']);
 
     foreach ($submissions as $submission) {
@@ -89,9 +100,9 @@ if ( $_SERVER['REQUEST_METHOD'] == "GET" ) {
         $sub_cls->update();
     }
 
-    $session->user->set("submitted", 1)->update();
+    $user->set("submitted", 1)->update();
 
-    sendApiSuccess();
+    sendApiSuccess($user);
 }
 else
     sendApiError("Invalid Method");
