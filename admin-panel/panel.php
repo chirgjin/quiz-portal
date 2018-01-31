@@ -111,13 +111,13 @@ require_once __DIR__ . "/check.php";
                     ?>
                     <?php foreach($questions as $question) { ?>
                         <tr>
-                            <td><?php echo $question->question ?></td>
+                            <td><?php echo htmlentities($question->question); ?></td>
                             <td><?php echo $question->option1 ?></td>
                             <td><?php echo $question->option2 ?></td>
                             <td><?php echo $question->option3 ?></td>
                             <td><?php echo $question->option4 ?></td>
                             <td><?php echo $question->correct ?></td>
-                            <td><button class="btn btn-default">X</button></td>
+                            <td><button class="btn btn-default" data-id='<?php echo $question->id; ?>' data-for='delete-ques' >X</button></td>
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -153,9 +153,17 @@ require_once __DIR__ . "/check.php";
         </div>
     </div>
 </body>
-<script
-src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery.min.js" ></script>
 <script src="js/panel.js"></script>
 </html>
+<script>
+    $("[data-for='delete-ques']").click(function () {
+        var id = $(this).data("id") , t = $(this);
+
+        $.post("delete-question.php" , { id : id } , function (r) {
+            t.parents("tr").remove();
+        }).error(function () {
+            alert("Error - Can't connect to server");
+        });
+    });
+</script>
