@@ -11,7 +11,10 @@ define("EVENT_NAME" , (int)setting_get("event_name"));
 
 $time = time();
 
-if ($time < START_TIME)
+if(isset($nocheck)) {
+
+}
+else if ($time < START_TIME)
     die("Submission time hasn't started yet.");
 else if ($time > END_TIME)
     die("Submission time has ended.");

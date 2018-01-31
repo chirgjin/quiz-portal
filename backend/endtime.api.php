@@ -6,6 +6,8 @@
  * @package  ENDTIMEAPI
  * @author   chirgjin <chirgjin@gmail.com>
  */
+
+ $nocheck = 1;
 require_once __DIR__ . "/check.php";
 
 $session = new SESSION;
