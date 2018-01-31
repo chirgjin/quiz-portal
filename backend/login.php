@@ -36,7 +36,7 @@ if ($_POST['isTeam'] == 'false') {
         }
 
         sendApiSuccess(
-            array("starting_time" => $verify->starting_time , "ending_time" => $verify->endTime())
+            array("starting_time" => $verify->starting_time , "ending_time" => $verify->endTime(),"current_time"=>time())
         );
 
     } else {
@@ -56,7 +56,7 @@ if ($_POST['isTeam'] == 'false') {
         }
 
         sendApiSuccess(
-            array("starting_time" => $verify->starting_time , "ending_time" => $verify->endTime())
+            array("starting_time" => $verify->starting_time , "ending_time" => $verify->endTime(),"current_time"=>time())
         );
     } else {
         sendApiError("Invalid credentials");
