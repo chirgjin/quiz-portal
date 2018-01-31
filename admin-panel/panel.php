@@ -96,6 +96,7 @@ require_once __DIR__ . "/check.php";
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Question</th>
                         <th>Option 1</th>
                         <th>Option 2</th>
@@ -109,8 +110,9 @@ require_once __DIR__ . "/check.php";
                     <?php
                         $questions = (new QUESTION)->fetchAll();
                     ?>
-                    <?php foreach($questions as $question) { ?>
+                    <?php foreach($questions as $i=>$question) { ?>
                         <tr>
+                            <td><?php echo $i ?></td>
                             <td><?php echo htmlentities($question->question); ?></td>
                             <td><?php echo $question->option1 ?></td>
                             <td><?php echo $question->option2 ?></td>
