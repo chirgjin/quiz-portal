@@ -3,7 +3,7 @@ var no_of_questions = 1;
 const formHTML = function(no_of_questions) {
     return `
     <div class="form-group">
-        <label>Question 1</label>
+        <label>Question ${no_of_questions}</label>
         <textarea class="form-control" name="question[]" rows="5" required></textarea>
     </div>
     <div class="form-group">
