@@ -32,6 +32,9 @@ $question->fetch();
 
 $options = $question->options();
 
+$answer = (int) $_POST['answer'];
+
+/*
 switch ($_POST['answer']) {
     case "None of the above" :
         $answer = 0;
@@ -48,7 +51,7 @@ switch ($_POST['answer']) {
     case $options[3] :
         $answer = 4;
     break;
-}
+}*/
 
 $submission = new SUBMISSION;
 $submission->ques_id = $question_id;

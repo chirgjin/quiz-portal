@@ -16,5 +16,8 @@ header("access-control-allow-credentials:true");
 header("Access-Control-Allow-Headers:access-control-allow-headers,access-control-allow-credentials,content-type");
 
 sendApiSuccess(
-    array("end_time" => (int) setting_get("time_end") )
+    array(
+        "end_time" => (int) setting_get("time_end"),
+        "start_time" => (int) setting_get("time_start")
+    )
 );
