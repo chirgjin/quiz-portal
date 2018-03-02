@@ -4,7 +4,6 @@
  * 
  * @category Api
  * @package  ENDTIMEAPI
- * @author   chirgjin <chirgjin@gmail.com>
  */
 
  $nocheck = 1;

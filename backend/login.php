@@ -4,8 +4,8 @@
  * 
  * @category Login
  * @package  LOGINAPI
- * @author   Shreyans <shreyans@gmail.com>
  */
+
 require_once __DIR__ . "/check.php";
 
 $session = new SESSION;

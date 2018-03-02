@@ -1,13 +1,11 @@
 <?php
 
-
 date_default_timezone_set("Asia/Kolkata");
 
 /**
  * Base Model for all classes
  * Provides db related functions
  *
- * @author chirgjin <chirgjin@gmail.com>
  */
 class BASE_MODEL
 {

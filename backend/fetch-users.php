@@ -4,7 +4,6 @@
  *
  * @category FetchData
  * @package  QuizportalFetchData
- * @author   Chirgjin <chirgjin@gmail.com>
  * @license  idk idk
  * @link     http://api/webathon-api
  */

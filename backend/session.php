@@ -11,7 +11,6 @@ if (!isset($_SESSION)) {
  * 
  * @category CLASS
  * @package  SESSIONCLASS
- * @author   chirgjin <chirgjin@gmail.com>
  */
 
 class SESSION

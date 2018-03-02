@@ -7,7 +7,6 @@ require_once __DIR__ . "/base.class.php";
  *
  * @category Class
  * @package  QuizportalUserClass
- * @author   Chirgjin <chirgjin@gmail.com>
  * @license  idk idk
  * @link     backend/user.class.php
  */
